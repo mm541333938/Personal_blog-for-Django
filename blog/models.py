@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 # Create your models here.
@@ -23,3 +24,9 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=True)  # 一对多的关系, 指定外键的时候需要对on_delete= True  or = models.CASCADE
     tags = models.ManyToManyField(Tag, blank=True)  # 多对多的关系
     author = models.ForeignKey(User, on_delete=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:detail', kwargs={'pk': self.pk})
